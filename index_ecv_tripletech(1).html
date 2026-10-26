@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="E-CV tim — profil, keahlian, proyek, dan kontak anggota tim.">
+  <title>TripleTech | E-CV Tim</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: rgba(18, 26, 48, .78);
+      --surface-solid: #121a30;
+      --text: #f4f7ff;
+      --muted: #a6b0c8;
+      --line: rgba(255,255,255,.11);
+      --primary: #818cf8;
+      --cyan: #22d3ee;
+      --purple: #c084fc;
+      --radius: 24px;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(99,102,241,.19), transparent 38rem),
+        radial-gradient(ellipse at 95% 25%, rgba(34,211,238,.10), transparent 32rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11,16,32,.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 850; letter-spacing: -.04em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 39px; height: 39px; border-radius: 13px;
+      color: #0b1020; background: linear-gradient(135deg, var(--cyan), var(--primary), var(--purple));
+      font-size: 1rem; font-weight: 950;
+    }
+    .brand span:last-child { font-size: 1.08rem; }
+    .nav-links { display: flex; align-items: center; gap: 25px; }
+    .nav-links a { color: var(--muted); font-size: .91rem; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .menu-toggle { display: none; border: 1px solid var(--line); color: var(--text); background: var(--surface); border-radius: 12px; padding: 8px 12px; cursor: pointer; }
+    .hero { padding: 88px 0 64px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 50px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c7d2fe; font-size: .8rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--cyan); }
+    h1 { font-size: clamp(2.7rem, 6vw, 5.2rem); line-height: 1.03; letter-spacing: -.065em; margin: 20px 0; }
+    .gradient-text { background: linear-gradient(100deg, #fff 10%, var(--cyan) 48%, var(--purple)); color: transparent; background-clip: text; -webkit-background-clip: text; }
+    .hero p { color: var(--muted); max-width: 620px; font-size: 1.06rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 27px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 18px; border-radius: 13px; border: 1px solid var(--line); font-weight: 750; font-size: .92rem; transition: transform .2s, border-color .2s; cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(129,140,248,.7); }
+    .btn-primary { color: #0b1020; border: 0; background: linear-gradient(110deg, var(--cyan), #a5b4fc); }
+    .btn-ghost { background: rgba(255,255,255,.035); }
+    .hero-art { min-height: 340px; position: relative; display: grid; place-items: center; }
+    .orb { position: absolute; width: 270px; height: 270px; border-radius: 50%; background: linear-gradient(135deg, rgba(34,211,238,.28), rgba(129,140,248,.28), rgba(192,132,252,.2)); filter: blur(2px); animation: float 6s ease-in-out infinite; }
+    .orbit { position: absolute; width: 330px; height: 210px; border: 1px solid rgba(165,180,252,.32); border-radius: 50%; transform: rotate(-28deg); }
+    .orbit.two { transform: rotate(58deg); width: 300px; height: 235px; border-color: rgba(34,211,238,.26); }
+    .hero-monogram { position: relative; display: grid; place-items: center; width: 170px; height: 170px; border-radius: 42px; border: 1px solid rgba(255,255,255,.24); background: linear-gradient(145deg, rgba(255,255,255,.15), rgba(255,255,255,.035)); box-shadow: 0 25px 80px rgba(0,0,0,.25); font-size: 3.2rem; font-weight: 900; letter-spacing: -.08em; transform: rotate(-7deg); }
+    .floating-tag { position: absolute; padding: 10px 13px; border: 1px solid var(--line); border-radius: 13px; background: rgba(18,26,48,.85); backdrop-filter: blur(12px); color: #e0e7ff; font-size: .82rem; font-weight: 700; box-shadow: 0 12px 35px rgba(0,0,0,.18); }
+    .tag-one { top: 30px; right: 0; } .tag-two { bottom: 35px; left: 0; }
+    section { padding: 58px 0; }
+    .section-head { margin-bottom: 28px; }
+    .section-head h2 { margin: 10px 0 8px; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -.05em; line-height: 1.15; }
+    .section-head p { margin: 0; color: var(--muted); max-width: 670px; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .member-card, .panel, .project-card, .contact-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: 0 18px 55px rgba(0,0,0,.12);
+    }
+    .member-card { padding: 25px; position: relative; overflow: hidden; transition: transform .25s, border-color .25s; }
+    .member-card:hover { transform: translateY(-5px); border-color: rgba(129,140,248,.55); }
+    .member-card::before { content: ""; position: absolute; width: 150px; height: 150px; right: -75px; top: -75px; border-radius: 50%; background: var(--glow, rgba(129,140,248,.2)); filter: blur(12px); }
+    .member-top { display: flex; align-items: center; gap: 15px; position: relative; }
+    .avatar { width: 76px; height: 76px; flex: 0 0 76px; display: grid; place-items: center; border-radius: 23px; background: linear-gradient(145deg, rgba(34,211,238,.25), rgba(129,140,248,.25)); border: 1px solid rgba(255,255,255,.15); font-size: 1.45rem; font-weight: 850; overflow: hidden; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .member-card h3 { margin: 0; font-size: 1.16rem; letter-spacing: -.025em; }
+    .role { color: var(--cyan); font-size: .84rem; font-weight: 700; margin-top: 3px; }
+    .member-bio { color: var(--muted); font-size: .91rem; min-height: 72px; margin: 20px 0; }
+    .mini-label { color: #e0e7ff; font-size: .76rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { display: inline-flex; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.035); color: #d8def0; font-size: .77rem; }
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding-top: 17px; margin-top: 22px; }
+    .card-bottom a { font-size: .84rem; color: #c7d2fe; font-weight: 750; }
+    .card-bottom span { font-size: .78rem; color: var(--muted); }
+    .panel { padding: 27px; }
+    .skill-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 22px; }
+    .skill-list { display: grid; gap: 17px; }
+    .skill-row { display: grid; gap: 8px; }
+    .skill-row-head { display: flex; justify-content: space-between; gap: 15px; color: #e4e9f7; font-size: .9rem; }
+    .skill-row-head span:last-child { color: var(--muted); }
+    .bar { height: 8px; border-radius: 99px; overflow: hidden; background: rgba(255,255,255,.08); }
+    .bar span { display: block; height: 100%; width: var(--level); border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--primary), var(--purple)); }
+    .note { color: var(--muted); font-size: .86rem; margin: 15px 0 0; }
+    .project-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
+    .project-card { overflow: hidden; }
+    .project-visual { min-height: 155px; padding: 22px; display: flex; align-items: end; position: relative; background: radial-gradient(circle at 70% 25%, rgba(34,211,238,.3), transparent 40%), linear-gradient(135deg, rgba(99,102,241,.28), rgba(18,26,48,.2)); }
+    .project-visual::after { content: "</>"; position: absolute; right: 20px; top: 15px; font-size: 3.8rem; font-weight: 900; letter-spacing: -.1em; color: rgba(255,255,255,.12); }
+    .project-visual .project-type { position: relative; z-index: 1; padding: 6px 10px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; background: rgba(11,16,32,.4); font-size: .75rem; }
+    .project-body { padding: 22px; }
+    .project-body h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .project-body p { margin: 0 0 17px; color: var(--muted); font-size: .9rem; }
+    .project-meta { color: #c7d2fe; font-size: .8rem; font-weight: 700; }
+    .contact-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 20px; }
+    .contact-list { display: grid; gap: 12px; margin-top: 20px; }
+    .contact-item { display: flex; align-items: center; gap: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); }
+    .contact-icon { width: 39px; height: 39px; display: grid; place-items: center; flex: 0 0 39px; border-radius: 12px; color: var(--cyan); background: rgba(34,211,238,.1); }
+    .contact-item small { display: block; color: var(--muted); font-size: .76rem; }
+    .contact-item strong { overflow-wrap: anywhere; font-size: .88rem; }
+    form { display: grid; gap: 14px; }
+    label { display: block; color: #dce3f5; font-size: .85rem; font-weight: 700; margin-bottom: 6px; }
+    input, textarea, select { width: 100%; color: var(--text); background: rgba(7,12,26,.55); border: 1px solid var(--line); border-radius: 12px; padding: 12px 13px; outline: none; }
+    input:focus, textarea:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(129,140,248,.12); }
+    textarea { resize: vertical; min-height: 115px; }
+    select option { background: var(--surface-solid); }
+    .form-status { min-height: 22px; margin: 0; color: var(--cyan); font-size: .86rem; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0; color: var(--muted); font-size: .83rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    .footer-inner strong { color: var(--text); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-13px) scale(1.03); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr .7fr; gap: 20px; }
+      .team-grid, .project-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .team-grid .member-card:last-child, .project-grid .project-card:last-child { grid-column: 1 / -1; }
+      .skill-layout, .contact-grid { grid-template-columns: 1fr; }
+      .hero-art { min-height: 280px; }
+      .orb { width: 220px; height: 220px; }
+      .orbit { width: 260px; height: 170px; }
+      .hero-monogram { width: 140px; height: 140px; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .nav-inner { min-height: 66px; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: 65px; left: 14px; right: 14px; flex-direction: column; align-items: stretch; gap: 0; padding: 8px; border: 1px solid var(--line); border-radius: 17px; background: rgba(18,26,48,.98); box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px; border-radius: 10px; }
+      .nav-links a:hover { background: rgba(255,255,255,.05); }
+      .hero { padding: 57px 0 35px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.7rem, 13vw, 4rem); }
+      .hero-art { min-height: 250px; margin-top: 5px; }
+      .orb { width: 190px; height: 190px; }
+      .orbit { width: 235px; height: 145px; }
+      .orbit.two { width: 230px; height: 170px; }
+      .hero-monogram { width: 125px; height: 125px; border-radius: 32px; font-size: 2.5rem; }
+      .tag-one { right: 2px; top: 20px; } .tag-two { left: 0; bottom: 18px; }
+      section { padding: 40px 0; }
+      .team-grid, .project-grid { grid-template-columns: 1fr; }
+      .team-grid .member-card:last-child, .project-grid .project-card:last-child { grid-column: auto; }
+      .member-card { padding: 21px; }
+      .member-bio { min-height: 0; }
+      .panel { padding: 21px; }
+      .footer-inner { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#beranda" aria-label="TripleTech, ke beranda">
+        <span class="brand-mark">T3</span><span><span class="gradient-text">TripleTech</span></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">☰ Menu</button>
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="#beranda" class="active">Beranda</a>
+        <a href="#anggota">Anggota</a>
+        <a href="#keahlian">Keahlian</a>
+        <a href="#proyek">Proyek</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Kolaborasi • Kreativitas • Teknologi</span>
+          <h1>Kenali tim di balik <span class="gradient-text">ide hebat.</span></h1>
+          <p>Satu ruang untuk mengenal tiga anggota tim, keahlian bersama, proyek kolaboratif, dan halaman E-CV pribadi masing-masing anggota.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#anggota">Kenali Anggota <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-ghost" href="#proyek">Lihat Proyek</a>
+          </div>
+        </div>
+        <div class="hero-art reveal" aria-label="Ilustrasi tiga anggota tim">
+          <div class="orb"></div><div class="orbit"></div><div class="orbit two"></div>
+          <div class="hero-monogram">T<span class="gradient-text">³</span></div>
+          <div class="floating-tag tag-one">✦ Creative minds</div>
+          <div class="floating-tag tag-two">⌘ Build together</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="anggota">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Tim kami</span>
+          <h2>Tiga orang, satu tujuan.</h2>
+          <p>Kenali ketiga anggota, lihat keahlian bersama yang konsisten, lalu buka halaman E-CV pribadi masing-masing melalui tautan pada kartu.</p>
+        </div>
+        <div class="team-grid">
+          <article class="member-card reveal" style="--glow:rgba(34,211,238,.23)">
+            <div class="member-top">
+              <div class="avatar" aria-label="Inisial Ardi Primadani">AP</div>
+              <div><h3>Ardi Primadani</h3><div class="role">NIM: 19230827</div></div>
+            </div>
+            <p class="member-bio">Anggota tim yang berkolaborasi dalam pengembangan solusi digital, penyusunan ide, dan pengerjaan proyek bersama.</p>
+            <div class="mini-label">Keahlian Tim</div>
+            <div class="chips"><span class="chip">Web Development</span><span class="chip">UI/UX Design</span><span class="chip">Data Analysis</span><span class="chip">Mobile Development</span></div>
+            <div class="card-bottom"><span>Anggota 01</span><a href="https://ecv-ardi-priadani.vercel.app/" target="_blank" rel="noopener noreferrer">Buka E-CV ↗</a></div>
+          </article>
+          <article class="member-card reveal" style="--glow:rgba(192,132,252,.23)">
+            <div class="member-top">
+              <div class="avatar" aria-label="Inisial Pramudhitya Ardhiyansyah">PA</div>
+              <div><h3>Pramudhitya Ardhiyansyah</h3><div class="role">NIM: 19230460</div></div>
+            </div>
+            <p class="member-bio">Anggota tim yang ikut berkontribusi dalam proses kolaborasi, pengembangan gagasan, dan penyelesaian proyek bersama.</p>
+            <div class="mini-label">Keahlian Tim</div>
+            <div class="chips"><span class="chip">Web Development</span><span class="chip">UI/UX Design</span><span class="chip">Data Analysis</span><span class="chip">Mobile Development</span></div>
+            <div class="card-bottom"><span>Anggota 02</span><a href="#anggota" aria-label="E-CV personal Pramudhitya belum tersedia" title="Link E-CV personal akan ditambahkan nanti" style="opacity:.7">Segera hadir</a></div>
+          </article>
+          <article class="member-card reveal" style="--glow:rgba(129,140,248,.23)">
+            <div class="member-top">
+              <div class="avatar" aria-label="Inisial Moh Nurul Iman">MI</div>
+              <div><h3>Moh Nurul Iman</h3><div class="role">NIM: 19230516</div></div>
+            </div>
+            <p class="member-bio">Anggota tim yang bekerja bersama anggota lain untuk mengembangkan proyek dan mendukung pencapaian tujuan tim.</p>
+            <div class="mini-label">Keahlian Tim</div>
+            <div class="chips"><span class="chip">Web Development</span><span class="chip">UI/UX Design</span><span class="chip">Data Analysis</span><span class="chip">Mobile Development</span></div>
+            <div class="card-bottom"><span>Anggota 03</span><a href="https://ecv-iman.vercel.app/" target="_blank" rel="noopener noreferrer">Buka E-CV ↗</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="keahlian">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Kompetensi</span>
+          <h2>Keahlian tim.</h2>
+          <p>Daftar keahlian bersama yang ditampilkan konsisten untuk ketiga anggota tim.</p>
+        </div>
+        <div class="skill-layout">
+          <div class="panel reveal">
+            <div class="mini-label">Bidang utama</div>
+            <h3 style="font-size:1.4rem;letter-spacing:-.04em;margin:0 0 10px">Dari ide menjadi solusi.</h3>
+            <p class="note">Ketiga anggota ditampilkan dengan daftar keahlian tim yang sama agar halaman berfokus pada kolaborasi. Sesuaikan daftar ini jika diperlukan.</p>
+            <div class="chips" style="margin-top:18px"><span class="chip">Kolaborasi</span><span class="chip">Problem Solving</span><span class="chip">Komunikasi</span><span class="chip">Pembelajaran</span></div>
+          </div>
+          <div class="panel reveal">
+            <div class="skill-list">
+              <div class="skill-row"><div class="skill-row-head"><span>Web Development</span><span>Sesuaikan</span></div><div class="bar"><span style="--level:82%"></span></div></div>
+              <div class="skill-row"><div class="skill-row-head"><span>UI/UX Design</span><span>Sesuaikan</span></div><div class="bar"><span style="--level:74%"></span></div></div>
+              <div class="skill-row"><div class="skill-row-head"><span>Data Analysis</span><span>Sesuaikan</span></div><div class="bar"><span style="--level:78%"></span></div></div>
+              <div class="skill-row"><div class="skill-row-head"><span>Mobile Development</span><span>Sesuaikan</span></div><div class="bar"><span style="--level:70%"></span></div></div>
+            </div>
+            <p class="note">Indikator ini menggambarkan kategori keahlian tim secara visual, bukan penilaian resmi tiap anggota.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyek">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Portofolio</span>
+          <h2>Proyek pilihan.</h2>
+          <p>Contoh proyek yang dapat diganti dengan karya asli milik tim.</p>
+        </div>
+        <div class="project-grid">
+          <article class="project-card reveal">
+            <div class="project-visual"><span class="project-type">Web Application</span></div>
+            <div class="project-body"><h3>Satu Garis — Aplikasi PKL</h3><p>Aplikasi absensi untuk membantu pencatatan kehadiran dan pengelolaan data kegiatan PKL.</p><div class="chips"><span class="chip">Google Apps Script</span><span class="chip">Google Sheets</span></div><div class="project-meta" style="margin-top:15px">Proyek Tim • Kontributor dapat disesuaikan</div></div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-visual" style="background:radial-gradient(circle at 70% 25%,rgba(192,132,252,.32),transparent 40%),linear-gradient(135deg,rgba(99,102,241,.28),rgba(18,26,48,.2))"><span class="project-type">UI/UX Design</span></div>
+            <div class="project-body"><h3>Proyek Desain Antarmuka</h3><p>Ganti bagian ini dengan nama, tujuan, dan deskripsi proyek desain yang benar-benar dikerjakan.</p><div class="chips"><span class="chip">Wireframe</span><span class="chip">Prototype</span></div><div class="project-meta" style="margin-top:15px">Proyek Tim • Kontributor dapat disesuaikan</div></div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-visual" style="background:radial-gradient(circle at 70% 25%,rgba(34,211,238,.24),transparent 40%),linear-gradient(135deg,rgba(14,165,233,.22),rgba(18,26,48,.2))"><span class="project-type">Data Analytics</span></div>
+            <div class="project-body"><h3>KPI Karyawan</h3><p>Contoh proyek analisis data untuk membantu menyajikan indikator kinerja dalam bentuk laporan atau dashboard.</p><div class="chips"><span class="chip">Excel</span><span class="chip">Dashboard</span></div><div class="project-meta" style="margin-top:15px">Proyek Tim • Kontributor dapat disesuaikan</div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontak">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Mari terhubung</span>
+          <h2>Kontak tim.</h2>
+          <p>Pilih anggota dan isi pesan. Form ini menyiapkan email di aplikasi email pengguna; tidak menyimpan atau mengirim data ke server.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card panel reveal">
+            <div class="mini-label">Informasi kontak</div>
+            <h3 style="font-size:1.35rem;margin:0;letter-spacing:-.03em">Terbuka untuk kolaborasi.</h3>
+            <p class="note">Tambahkan email, LinkedIn, GitHub, atau nomor profesional tim yang memang ingin dipublikasikan.</p>
+            <div class="contact-list">
+              <div class="contact-item"><span class="contact-icon">✉</span><div><small>Email</small><strong>email-ardi@example.com</strong></div></div>
+              <div class="contact-item"><span class="contact-icon">⌘</span><div><small>GitHub</small><strong>github.com/username-tim</strong></div></div>
+              <div class="contact-item"><span class="contact-icon">in</span><div><small>LinkedIn</small><strong>linkedin.com/in/profil-tim</strong></div></div>
+            </div>
+            <p class="note">Alamat kontak di atas masih contoh. Ganti dengan kontak asli sebelum website dipublikasikan.</p>
+          </div>
+          <div class="contact-card panel reveal">
+            <div class="mini-label">Kirim pesan</div>
+            <form id="contactForm">
+              <div><label for="memberSelect">Tujuan pesan</label><select id="memberSelect" required><option value="Ardi Primadani">Ardi Primadani</option><option value="Pramudhitya Ardhiyansyah">Pramudhitya Ardhiyansyah</option><option value="Moh Nurul Iman">Moh Nurul Iman</option></select></div>
+              <div><label for="senderName">Nama kamu</label><input id="senderName" name="senderName" placeholder="Masukkan nama" required></div>
+              <div><label for="senderEmail">Email kamu</label><input id="senderEmail" name="senderEmail" type="email" placeholder="nama@email.com" required></div>
+              <div><label for="message">Pesan</label><textarea id="message" name="message" placeholder="Tuliskan pesan atau ide kolaborasi..." required></textarea></div>
+              <button class="btn btn-primary" type="submit">Buka aplikasi email ↗</button>
+              <p class="form-status" id="formStatus" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner"><span>© <span id="year"></span> <strong>TripleTech</strong>. Dibuat dengan semangat kolaborasi.</span><a href="#beranda">Kembali ke atas ↑</a></div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const navItems = [...document.querySelectorAll('#navLinks a')];
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navItems.forEach(link => {
+              link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+            });
+          }
+        });
+      }, { rootMargin: '-30% 0px -60% 0px' });
+      sections.forEach(section => observer.observe(section));
+    }
+
+    const revealObserver = 'IntersectionObserver' in window
+      ? new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        }), { threshold: 0.12 })
+      : null;
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (revealObserver) revealObserver.observe(el);
+      else el.classList.add('visible');
+    });
+
+    document.querySelectorAll('[data-contact]').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('memberSelect').value = link.dataset.contact;
+      });
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const recipient = document.getElementById('memberSelect').value;
+      const name = document.getElementById('senderName').value.trim();
+      const email = document.getElementById('senderEmail').value.trim();
+      const message = document.getElementById('message').value.trim();
+      // Ganti alamat ini dengan email tujuan asli milik anggota yang dipilih.
+      const recipientEmails = {
+        'Ardi Primadani': 'email-ardi@example.com',
+        'Pramudhitya Ardhiyansyah': 'email-pramudhitya@example.com',
+        'Moh Nurul Iman': 'email-nuruliman@example.com'
+      };
+      const subject = encodeURIComponent('Pesan TripleTech dari ' + name + ' untuk ' + recipient);
+      const body = encodeURIComponent('Nama: ' + name + '\nEmail: ' + email + '\nTujuan: ' + recipient + '\n\nPesan:\n' + message);
+      document.getElementById('formStatus').textContent = 'Aplikasi email akan dibuka. Pastikan alamat email tujuan sudah diganti dengan alamat yang benar.';
+      window.location.href = 'mailto:' + recipientEmails[recipient] + '?subject=' + subject + '&body=' + body;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
